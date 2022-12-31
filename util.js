@@ -1,9 +1,7 @@
-const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ButtonStyle } = require("discord.js");
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ButtonStyle, ReactionUserManager } = require("discord.js");
 
 //---------- QuizMessageBuilder ----------//
-function QuizMessageBuilder(target, isActive) {
-    const { quizList } = require("./Config.json");
-
+function QuizMessageBuilder(target, quizList, isActive) {
     const quiz = quizList[target];
     const embed = new EmbedBuilder()
         .setColor(QuizMessageColor(isActive))
@@ -62,8 +60,17 @@ function AnswerMessageTitle(isCorrect) {
 }
 //---------- AnswerMessageBuilder ----------//
 
+const fs = require("fs");
+
+function getQuizList(FileName) {
+    return JSON.parse(
+        fs.readFileSync(FileName, { encoding: 'utf-8' })
+    ).quizList;
+}
+
 
 module.exports = {
     QuizMessageBuilder: QuizMessageBuilder,
-    AnswerMessageBuilder: AnswerMessageBuilder
+    AnswerMessageBuilder: AnswerMessageBuilder,
+    getQuizList: getQuizList
 }

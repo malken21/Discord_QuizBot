@@ -11,7 +11,7 @@ const client = new Client({
 
 const { token, guildId } = require("./Config.json");
 const { commands } = require("./command");
-const { QuizMessageBuilder, AnswerMessageBuilder } = require("./util");
+const { QuizMessageBuilder, AnswerMessageBuilder, getQuizList } = require("./util");
 
 client.on(Events.ClientReady, () => {
     client.application.commands.set(commands, guildId);//コマンド生成
@@ -19,13 +19,13 @@ client.on(Events.ClientReady, () => {
 });
 
 client.on(Events.InteractionCreate, async interaction => {
-    const { quizList } = require("./Config.json");
+    const quizList = getQuizList("./Config.json");
 
     if (interaction.isCommand()) {
         if (interaction.commandName = "quiz" || interaction.commandName == "q") {
 
             const random = Math.floor(Math.random() * quizList.length);
-            interaction.reply(QuizMessageBuilder(random, true));
+            interaction.reply(QuizMessageBuilder(random, quizList, true));
 
         }
     } else if (interaction.isButton()) {
@@ -34,7 +34,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
         const message = interaction.message;
 
-        message.edit(QuizMessageBuilder(data[0], false));
+        message.edit(QuizMessageBuilder(data[0], quizList, false));
         if (data[1] == quiz.answer - 1) {
             interaction.reply(AnswerMessageBuilder(quiz.description, true));
         } else {
