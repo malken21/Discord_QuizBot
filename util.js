@@ -1,9 +1,9 @@
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ButtonStyle } = require("discord.js");
-const { quizList } = require("./Config.json");
-
 
 //---------- QuizMessageBuilder ----------//
 function QuizMessageBuilder(target, isActive) {
+    const { quizList } = require("./Config.json");
+
     const quiz = quizList[target];
     const embed = new EmbedBuilder()
         .setColor(QuizMessageColor(isActive))

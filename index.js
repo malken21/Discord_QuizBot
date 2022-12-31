@@ -9,7 +9,7 @@ const client = new Client({
     ]
 });
 
-const { token, guildId, quizList } = require("./Config.json");
+const { token, guildId } = require("./Config.json");
 const { commands } = require("./command");
 const { QuizMessageBuilder, AnswerMessageBuilder } = require("./util");
 
@@ -19,6 +19,8 @@ client.on(Events.ClientReady, () => {
 });
 
 client.on(Events.InteractionCreate, async interaction => {
+    const { quizList } = require("./Config.json");
+
     if (interaction.isCommand()) {
         if (interaction.commandName = "quiz" || interaction.commandName == "q") {
 
